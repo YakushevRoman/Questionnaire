@@ -46,7 +46,7 @@ public class QuestionnaireActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
         if (fragment == null){
-            fragment = new FragmentQuestionnaire();
+            fragment = new FragmentListPeople();
             fragmentManager
                     .beginTransaction()
                     .add(R.id.fragment_container, fragment)
