@@ -4,13 +4,16 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/name_new_people"
+        android:id="@+id/edit_text_add_new_people"
+        android:layout_margin="@dimen/fab_margin"
+        android:hint="Введите пользователя"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/add_new_people"
-        android:text=""
+        android:id="@+id/button_add_new_people"
+        android:layout_margin="@dimen/fab_margin"
+        android:text="Добавление пользователя"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

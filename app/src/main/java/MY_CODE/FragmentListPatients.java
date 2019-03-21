@@ -21,7 +21,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FragmentListPatients extends Fragment {
 
     /*private RecyclerView rRecyclerViewPatients;
@@ -30,30 +29,49 @@ public class FragmentListPatients extends Fragment {
     private DataBasePatients rDataBasePatients;
     private SQLiteDatabase rSqLiteDatabase;
     private Cursor rCursor;
-    private static final String TAG = "pactogramma";
+    public static final String TAG = "phone";
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rPatientsLists = new ArrayList<>();
-        rDataBasePatients = new DataBasePatients(getContext());
-        rSqLiteDatabase = rDataBasePatients.getReadableDatabase();
-        rCursor = rSqLiteDatabase.
-                query(DataBaseShema.Patient.TABLE_PATIENT,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
-        if (rCursor.moveToFirst()){
+        ArrayList<String> contacts = new ArrayList<String>();
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if(cursor!=null){
+            while (cursor.moveToNext()) {
+
+                // получаем каждый контакт
+                String contact = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
+                // добавляем контакт в список
+                contacts.add(contact);
+            }
+            cursor.close();
+        }
+        Log.d(TAG, "hasWhatsapp: " + contacts);
+
+
+        if (.moveToFirst()){
             do{
-                int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.ID));
-                String name = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.FIRSTNAME_LASTNAME));
-                String what_pregnancy_edit_text = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.WHAT_PREGNANCY));
-                String which_account_birth = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.WHICH_ACCOUNT_BIRTH));
-                String number_medical_history = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.NUMBER_MEDICAL_HISTORY_));
-                String data_and_time_hospitalization = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.DATA_AND_TIME_HOSPITALIZATION));
-                String period_duration = rCursor.getString(rCursor.getColumnIndex(DataBaseShema.Patient.Columns.PERIOD_DURATION));
+                int id = rCursor.
+                        getInt(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.ID));
+                String name = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.FIRSTNAME_LASTNAME));
+                String what_pregnancy_edit_text = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.WHAT_PREGNANCY));
+                String which_account_birth = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.WHICH_ACCOUNT_BIRTH));
+                String number_medical_history = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.NUMBER_MEDICAL_HISTORY_));
+                String data_and_time_hospitalization = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.DATA_AND_TIME_HOSPITALIZATION));
+                String period_duration = rCursor.
+                        getString(rCursor.
+                                getColumnIndex(DataBaseShema.Patient.Columns.PERIOD_DURATION));
 
                 PatientsList patientsList = new PatientsList(id,
                         name,
@@ -76,11 +94,25 @@ public class FragmentListPatients extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_patients, container, false);
-        rRecyclerViewPatients = view.findViewById(R.id.list_patients_recycler_view);
-        rRecyclerViewPatients.setLayoutManager(new LinearLayoutManager(getActivity()));
+        View view = inflater.
+                inflate(R.layout.fragment_patients,
+                        container,
+                        false);
+        rRecyclerViewPatients = view.
+                findViewById(R.id.list_patients_recycler_view);
+        rRecyclerViewPatients.
+                setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        rRecyclerViewPatients.setAdapter(rPatientAdapter);
+        rRecyclerViewPatients.
+                setAdapter(rPatientAdapter);
+
+        GraphView graph = (GraphView) view.findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0),
+                new DataPoint(4, 0)
+        });
+        graph.addSeries(series);
+
         return view;
     }
 
@@ -105,8 +137,15 @@ public class FragmentListPatients extends Fragment {
         public void onBindViewHolder(@NonNull PatientHolder patientHolder, int i) {
             PatientsList patientsList = rPatientsListsRecyclerView.get(i);
 
-            patientHolder.bindItemListPatients(patientsList);
-            patientHolder.bindBundle(patientsList);
+            bundle.putInt(DataBaseShema.Patient.Columns.ID,patientsList.getID());
+            bundle.putString(DataBaseShema.Patient.Columns.FIRSTNAME_LASTNAME,patientsList.getName());
+            bundle.putString(DataBaseShema.Patient.Columns.WHAT_PREGNANCY,patientsList.getWhat_pregnancy());
+            bundle.putString(DataBaseShema.Patient.Columns.WHICH_ACCOUNT_BIRTH,patientsList.getWhich_account_birth());
+            bundle.putString(DataBaseShema.Patient.Columns.NUMBER_MEDICAL_HISTORY_,patientsList.getNumber_medical_history());
+            bundle.putString(DataBaseShema.Patient.Columns.DATA_AND_TIME_HOSPITALIZATION,patientsList.getData_and_time_hospitalization());
+            bundle.putString(DataBaseShema.Patient.Columns.PERIOD_DURATION,patientsList.getPeriod_duration());
+
+            patientHolder.rPatientsTextView.setText(patientsList.getName());
         }
 
         @Override
@@ -115,7 +154,7 @@ public class FragmentListPatients extends Fragment {
         }
     }
 
-    private class PatientHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class PatientHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView rPatientsTextView;
         private Bundle bundle;
@@ -124,6 +163,7 @@ public class FragmentListPatients extends Fragment {
             super(itemView);
             rPatientsTextView = itemView.findViewById(R.id.patient_item_text_view);
             rPatientsTextView.setOnClickListener(this);
+            rPatientsTextView.setOnLongClickListener(this);
             this.bundle = bundle;
         }
 
@@ -145,19 +185,19 @@ public class FragmentListPatients extends Fragment {
             Snackbar.make(v, rPatientsTextView.getText().toString() , Snackbar.LENGTH_LONG)
                     .setAction("Action", null)
                     .show();
-        }
-        private void bindItemListPatients (PatientsList patientsList){
-            rPatientsTextView.setText(patientsList.getName());
+
         }
 
-        private void bindBundle (PatientsList patientsList){
-            bundle.putInt(DataBaseShema.Patient.Columns.ID,patientsList.getID());
-            bundle.putString(DataBaseShema.Patient.Columns.FIRSTNAME_LASTNAME,patientsList.getName());
-            bundle.putString(DataBaseShema.Patient.Columns.WHAT_PREGNANCY,patientsList.getWhat_pregnancy());
-            bundle.putString(DataBaseShema.Patient.Columns.WHICH_ACCOUNT_BIRTH,patientsList.getWhich_account_birth());
-            bundle.putString(DataBaseShema.Patient.Columns.NUMBER_MEDICAL_HISTORY_,patientsList.getNumber_medical_history());
-            bundle.putString(DataBaseShema.Patient.Columns.DATA_AND_TIME_HOSPITALIZATION,patientsList.getData_and_time_hospitalization());
-            bundle.putString(DataBaseShema.Patient.Columns.PERIOD_DURATION,patientsList.getPeriod_duration());
+        @Override
+        public boolean onLongClick(View v) {
+
+            rSqLiteDatabase = rDataBasePatients.getWritableDatabase();
+            int delItems = rSqLiteDatabase.delete(DataBaseShema.Patient.PATIENT, DataBaseShema.Patient.Columns.FIRSTNAME_LASTNAME + " = Valentina Durova" , null);
+
+            Snackbar.make(v, "Удалено :" + delItems , Snackbar.LENGTH_LONG)
+                    //.setAction("Action", null)
+                    .show();
+            return true;
         }
     }
 
