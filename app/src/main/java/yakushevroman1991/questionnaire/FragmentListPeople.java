@@ -42,15 +42,16 @@ public class FragmentListPeople extends Fragment {
         rDataBaseSeller = new DataBaseSeller(getActivity());
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
         rContentValues = new ContentValues();
-        rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null);
+        rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
         if (rCursor.moveToFirst()){
             do{
                 int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.ID));
                 String name = rCursor.getString(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
                 ListPeople listPeople = new ListPeople(id,name);
                 rListPeople.add(listPeople);
-                Log.d(TAG, "onCreate: -----" + id + " ----" + name);
+                Log.d(TAG, "onCreate: ----- " + id + " ----" + name);
             }while (rCursor.moveToNext());
+            Log.d(TAG, "onCreate: " + rListPeople.size());
         }
     }
 
@@ -61,6 +62,8 @@ public class FragmentListPeople extends Fragment {
         rRecyclerViewl = view.findViewById(R.id.recycler_view_list_people);
         rRecyclerViewl.setLayoutManager(new LinearLayoutManager(getActivity()));
         rRecyclerViewl.setAdapter(new PeopleAdapter(rListPeople));
+
+
         return view;
     }
 
@@ -69,22 +72,22 @@ public class FragmentListPeople extends Fragment {
 
         public PeopleAdapter(List<ListPeople> rListPeople) {
             this.rListPeople = rListPeople;
+            Log.d(TAG, "PeopleAdapter: " + rListPeople.size());
         }
 
         @NonNull
         @Override
         public PeopleHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
             View view = layoutInflater.inflate(R.layout.item_list_recycler_view, viewGroup, false);
-            return new PeopleHolder(view);
+            return new PeopleHolder(view, rListPeople);
         }
 
         @Override
         public void onBindViewHolder(@NonNull PeopleHolder peopleHolder, int i) {
 
             ListPeople listPeople = rListPeople.get(i);
-
-            peopleHolder.setButtonText(listPeople);
+            peopleHolder.settingsButton(listPeople);
         }
 
         @Override
@@ -93,16 +96,24 @@ public class FragmentListPeople extends Fragment {
         }
     }
 
-    private class PeopleHolder extends RecyclerView.ViewHolder{
+    private class PeopleHolder extends RecyclerView.ViewHolder {
 
         private Button rButtonListItem;
+        private List<ListPeople> rListPeople;
 
-        public PeopleHolder(@NonNull View itemView) {
+        public PeopleHolder(@NonNull View itemView, List<ListPeople> listPeople) {
             super(itemView);
+            this.rListPeople = listPeople;
             rButtonListItem = itemView.findViewById(R.id.button_people);
+            rButtonListItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: " + String.valueOf(getAdapterPosition()));
+                }
+            });
         }
 
-        public void setButtonText (ListPeople listPeople){
+        public void settingsButton(ListPeople listPeople){
             rButtonListItem.setText(listPeople.getTitle());
         }
 

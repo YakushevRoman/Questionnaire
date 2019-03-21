@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBaseSeller extends SQLiteOpenHelper {
 
-    public static final int VERSION = 1;
+    public static final int VERSION = 3;
     public static final String DATABASE_NAME = "seller.db";
     /**
      *
@@ -33,11 +33,21 @@ public class DataBaseSeller extends SQLiteOpenHelper {
      *
      * добавляем начальные данные
      */
-    public static final String add_new_people =
+    public static final String add_new_people_one =
             "INSERT INTO " + DataBaseSellerChema.Seller_TABLE.NAME
             + "("
-            + DataBaseSellerChema.Seller_TABLE.NAME
-            + ") VALUES ('THIS IS I')";
+            + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE
+            + ") VALUES ('THIS IS 1')";
+    public static final String add_new_people_two =
+            "INSERT INTO " + DataBaseSellerChema.Seller_TABLE.NAME
+                    + "("
+                    + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE
+                    + ") VALUES ('THIS IS 2')";
+    public static final String add_new_people_three =
+            "INSERT INTO " + DataBaseSellerChema.Seller_TABLE.NAME
+                    + "("
+                    + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE
+                    + ") VALUES ('THIS IS 3')";
     //
     public static final String add_information =
             "INSERT INTO " + DataBaseSellerChema.INFORMATION_TABLE.NAME
@@ -61,7 +71,9 @@ public class DataBaseSeller extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_PEOPLE);
-        db.execSQL(add_new_people);
+        db.execSQL(add_new_people_one);
+        db.execSQL(add_new_people_two);
+        db.execSQL(add_new_people_three);
         db.execSQL(TABLE_QUESTIONNAIRE);
         db.execSQL(add_information);
     }
