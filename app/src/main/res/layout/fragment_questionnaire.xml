@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,17 +15,20 @@
             android:id="@+id/happy_button"
             android:layout_weight="1"
             android:text="Happy"
+            android:background="@color/happy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/usual_button"
             android:layout_weight="1"
             android:text="Usual"
+            android:background="@color/usual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
             android:id="@+id/unhappy_button"
             android:layout_weight="1"
+            android:background="@color/unhappy"
             android:text="Unhappy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
