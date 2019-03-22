@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class FragmentQuestionnaire extends Fragment {
-    public static final String TAG = "FragmentQuestionnaire";
+    public static final String TAG = "QuestionnaireActivity";
     //
     private Button rButtonHappy;
     private Button rButtonUsual;
@@ -64,6 +64,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
                 Log.d(TAG, "onClick: " + id + "---" + "time" + timeText);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -81,6 +82,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
                 Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + "---");
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 
@@ -98,6 +100,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
                 Log.d(TAG, "onClick: " + id + "---" + "time" + timeText);
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentListPeople extends Fragment {
-    public static final String TAG = "FragmentListPeople";
+    public static final String TAG = "QuestionnaireActivity";
 
     private List <ListPeople> rListPeople;
 
@@ -41,7 +41,6 @@ public class FragmentListPeople extends Fragment {
 
         rListPeople = new ArrayList<>();
 
-
         rDataBaseSeller = new DataBaseSeller(getActivity());
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
         rContentValues = new ContentValues();
@@ -58,6 +57,12 @@ public class FragmentListPeople extends Fragment {
         }
 
         rBundle = new Bundle();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
     }
 
     @Nullable
@@ -136,8 +141,15 @@ public class FragmentListPeople extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+        rSqLiteDatabase.close();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        rSqLiteDatabase.close();
+        Log.d(TAG, "onDestroy: ");
     }
 }

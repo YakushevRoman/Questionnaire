@@ -51,6 +51,12 @@ public class QuestionnaireActivity extends AppCompatActivity
                     .beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
+        }else{
+            fragment = new FragmentListPeople();
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
         }
     }
 
@@ -85,8 +91,6 @@ public class QuestionnaireActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -95,7 +99,13 @@ public class QuestionnaireActivity extends AppCompatActivity
         if (id == R.id.nav_list_people) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
-            if (fragment != null){
+            if (fragment == null){
+                fragment = new FragmentListPeople();
+                fragmentManager
+                        .beginTransaction()
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            } else {
                 fragment = new FragmentListPeople();
                 fragmentManager
                         .beginTransaction()
@@ -105,12 +115,17 @@ public class QuestionnaireActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_new_people) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
-            if (fragment != null){
+            if (fragment == null){
+                fragment = new FragmentAddNewPeople();
+                fragmentManager
+                        .beginTransaction()
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            }else {
                 fragment = new FragmentAddNewPeople();
                 fragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
-                        .addToBackStack(null)
                         .commit();
             }
         }

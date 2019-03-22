@@ -3,12 +3,14 @@ package yakushevroman1991.questionnaire;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 public class DataBaseSeller extends SQLiteOpenHelper {
+    public static final String TAG  = "DataBaseSeller";
 
-    public static final int VERSION = 3;
-    public static final String DATABASE_NAME = "seller.db";
+    public static final int VERSION = 6;
+    public static final String DATABASE_NAME = "seller1.db";
     /**
      *
      */
@@ -70,17 +72,23 @@ public class DataBaseSeller extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d(TAG, "onCreate: TABLE_PEOPLE");
         db.execSQL(TABLE_PEOPLE);
+
         db.execSQL(add_new_people_one);
         db.execSQL(add_new_people_two);
         db.execSQL(add_new_people_three);
         db.execSQL(TABLE_QUESTIONNAIRE);
+        Log.d(TAG, "onCreate: TABLE_QUESTIONNAIRE");
         db.execSQL(add_information);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(sql_drop_people_table);
         db.execSQL(sql_drop_questionnaire_table);
+
+        onCreate(db);
     }
 }

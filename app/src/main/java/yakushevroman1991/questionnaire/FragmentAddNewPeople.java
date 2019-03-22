@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class FragmentAddNewPeople extends Fragment {
-    public static final String TAG = "FragmentAddNewPeople";
+    public static final String TAG = "QuestionnaireActivity";
 
     private Button rButtonAddNewUser;
     private EditText rEditTextNewUser;
@@ -46,6 +47,15 @@ public class FragmentAddNewPeople extends Fragment {
                 rContentValues.put(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE, name);
                 rSqLiteDatabase.insert(DataBaseSellerChema.Seller_TABLE.NAME, null, rContentValues);
                 Log.d(TAG, "onClick: " + name);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
+                if (fragment != null){
+                    fragment = new FragmentListPeople();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .commit();
+                }
 
             }
         });
