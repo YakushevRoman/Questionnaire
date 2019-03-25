@@ -44,14 +44,15 @@ public class QuestionnaireActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
-        if (fragment == null){
+        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+        ;
+        if (fragment == null) {
             fragment = new FragmentListPeople();
             fragmentManager
                     .beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
-        }else{
+        } else {
             fragment = new FragmentListPeople();
             fragmentManager
                     .beginTransaction()
@@ -91,6 +92,7 @@ public class QuestionnaireActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -98,8 +100,8 @@ public class QuestionnaireActivity extends AppCompatActivity
 
         if (id == R.id.nav_list_people) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
-            if (fragment == null){
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+            if (fragment == null) {
                 fragment = new FragmentListPeople();
                 fragmentManager
                         .beginTransaction()
@@ -112,16 +114,17 @@ public class QuestionnaireActivity extends AppCompatActivity
                         .replace(R.id.fragment_container, fragment)
                         .commit();
             }
-        } else if (id == R.id.nav_add_new_people) {
+        }
+        if (id == R.id.nav_add_new_people) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
-            if (fragment == null){
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+            if (fragment == null) {
                 fragment = new FragmentAddNewPeople();
                 fragmentManager
                         .beginTransaction()
                         .add(R.id.fragment_container, fragment)
                         .commit();
-            }else {
+            } else {
                 fragment = new FragmentAddNewPeople();
                 fragmentManager
                         .beginTransaction()
@@ -129,9 +132,27 @@ public class QuestionnaireActivity extends AppCompatActivity
                         .commit();
             }
         }
+        if (id == R.id.nav_result_people) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+            ;
+            if (fragment == null) {
+                fragment = new FragmentResult();
+                fragmentManager
+                        .beginTransaction()
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            } else {
+                fragment = new FragmentResult();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
     }
-}

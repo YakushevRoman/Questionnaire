@@ -20,6 +20,9 @@ import java.util.Locale;
 
 public class FragmentQuestionnaire extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
+    public static final int QUESTIONNAIRE_HAPPY = 0;
+    public static final int QUESTIONNAIRE_USUAL = 1;
+    public static final int QUESTIONNAIRE_UNHAPPY = 2;
     //
     private Button rButtonHappy;
     private Button rButtonUsual;
@@ -59,11 +62,11 @@ public class FragmentQuestionnaire extends Fragment {
 
                 rContentValues = new ContentValues();
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, 0);
+                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_HAPPY);
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText);
+                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -77,11 +80,11 @@ public class FragmentQuestionnaire extends Fragment {
 
                 rContentValues = new ContentValues();
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, 1);
+                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_USUAL);
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + "---");
+                Log.d(TAG, "onClick: " + id + "---" + "time: " + timeText + "---" + " QUESTIONNAIRE: " + QUESTIONNAIRE_UNHAPPY);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -95,11 +98,11 @@ public class FragmentQuestionnaire extends Fragment {
 
                 rContentValues = new ContentValues();
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, 2);
+                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_UNHAPPY);
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText);
+                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
