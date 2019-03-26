@@ -17,9 +17,6 @@ public class FragmentResult extends Fragment {
     private Button rButtonResult;
     private DataBaseSeller rDataBaseSeller;
     private SQLiteDatabase rSqLiteDatabase;
-    /*private String sql_inner = "SELECT * FROM " + DataBaseSellerChema.Seller_TABLE.NAME + " SELLER INNER JOIN "
-                                                + DataBaseSellerChema.INFORMATION_TABLE.NAME + " INFO ON SELLER.ID=INFO.ID";
-    private final String MY_QUERY = "SELECT * FROM table_a a INNER JOIN table_b b ON a.id=b.other_id WHERE b.property_id=?";*/
     private String sql = "Select * From "
             + DataBaseSellerChema.Seller_TABLE.NAME + " Inner Join " + DataBaseSellerChema.INFORMATION_TABLE.NAME
             + " On " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID;
@@ -38,7 +35,7 @@ public class FragmentResult extends Fragment {
         rButtonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor cursor = rSqLiteDatabase.query(DataBaseSellerChema.INFORMATION_TABLE.NAME, null,null,null,null,null,DataBaseSellerChema.INFORMATION_TABLE.Columns.ID);
+                /*Cursor cursor = rSqLiteDatabase.query(DataBaseSellerChema.INFORMATION_TABLE.NAME, null,null,null,null,null,DataBaseSellerChema.INFORMATION_TABLE.Columns.ID);
                 if (cursor.moveToFirst()){
                     do {
                         int id = cursor.getInt(cursor.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
@@ -46,13 +43,24 @@ public class FragmentResult extends Fragment {
                         String time = cursor.getString(cursor.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
                         Log.d(TAG, "onClick: id :" + id + " --- Q:" +  q  + " --- time: " + time);
                     }while (cursor.moveToNext());
-                }
+                }*/
+                int count_positive = 0;
+                int count_usual = 0;
+                int count_negative = 0;
                 Cursor cursor1 = rSqLiteDatabase.rawQuery(sql,null);
                 if (cursor1.moveToFirst()){
                     do {
                         String name = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
                         int id = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
                         int q = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
+                        if (count_positive == q){
+                            count_positive++;
+                        }else if (count_usual == q){
+                            count_usual++;
+                        }else{
+                            count_negative++;
+                        }
+
                         String time = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
                         Log.d(TAG, "onClick: " + name + " " + id + " " + q + " " + time);
                     }while (cursor1.moveToNext());

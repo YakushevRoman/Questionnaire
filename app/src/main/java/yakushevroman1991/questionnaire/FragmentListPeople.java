@@ -98,7 +98,7 @@ public class FragmentListPeople extends Fragment {
 
             ListPeople listPeople = rListPeople.get(i);
             peopleHolder.settingsButton(listPeople);
-            rBundle.putInt("ID", listPeople.getId());
+            rBundle.putInt("ID", rListPeople.get(i).getId());
         }
 
         @Override
