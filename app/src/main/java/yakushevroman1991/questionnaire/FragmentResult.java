@@ -53,18 +53,19 @@ public class FragmentResult extends Fragment {
                         String name = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
                         int id = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
                         int q = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
-                        if (count_positive == q){
-                            count_positive++;
-                        }else if (count_usual == q){
-                            count_usual++;
-                        }else{
-                            count_negative++;
+                        if (FragmentQuestionnaire.QUESTIONNAIRE_HAPPY == q){
+                            ++count_positive;
+                        }else if (FragmentQuestionnaire.QUESTIONNAIRE_USUAL == q){
+                            ++count_usual;
+                        }else if (FragmentQuestionnaire.QUESTIONNAIRE_UNHAPPY == q){
+                            ++count_negative;
                         }
 
                         String time = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
                         Log.d(TAG, "onClick: " + name + " " + id + " " + q + " " + time);
                     }while (cursor1.moveToNext());
                 }
+                Log.d(TAG, "onClick: \n count_positive" + count_positive + "\n" + "count_usual:" + count_usual + "\n" + "count_negative:" + count_negative );
 
             }
         });
