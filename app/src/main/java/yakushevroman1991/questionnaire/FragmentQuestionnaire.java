@@ -56,54 +56,21 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date currentDate = new Date();
-                DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-                String timeText = timeFormat.format(currentDate);
-
-                rContentValues = new ContentValues();
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_HAPPY);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
-                rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
-
-                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_HAPPY);
-                getActivity().getSupportFragmentManager().popBackStack();
+                addDataSqliteQuestionnaire(QUESTIONNAIRE_HAPPY);
             }
         });
 
         rButtonUsual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date currentDate = new Date();
-                DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-                String timeText = timeFormat.format(currentDate);
-
-                rContentValues = new ContentValues();
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_USUAL);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
-                rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
-
-                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time: " + timeText + "---" + " QUESTIONNAIRE: " + QUESTIONNAIRE_USUAL);
-                getActivity().getSupportFragmentManager().popBackStack();
+                addDataSqliteQuestionnaire(QUESTIONNAIRE_USUAL);
             }
         });
 
         rButtonUnHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date currentDate = new Date();
-                DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-                String timeText = timeFormat.format(currentDate);
-
-                rContentValues = new ContentValues();
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, QUESTIONNAIRE_UNHAPPY);
-                rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
-                rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
-
-                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
-                getActivity().getSupportFragmentManager().popBackStack();
+                addDataSqliteQuestionnaire(QUESTIONNAIRE_UNHAPPY);
             }
         });
 
@@ -116,5 +83,20 @@ public class FragmentQuestionnaire extends Fragment {
         Log.d(TAG, "onDestroy: FragmentQuestionnaire");
         bundle.clear();
         rSqLiteDatabase.close();
+    }
+
+    private void addDataSqliteQuestionnaire(int question){
+        Date currentDate = new Date();
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        String timeText = timeFormat.format(currentDate);
+
+        rContentValues = new ContentValues();
+        rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, id);
+        rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, question);
+        rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
+        rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
+
+        Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + question);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }
