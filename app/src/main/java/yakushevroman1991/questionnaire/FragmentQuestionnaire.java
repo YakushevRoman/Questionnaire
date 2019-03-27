@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,9 +18,9 @@ import java.util.Locale;
 
 public class FragmentQuestionnaire extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
-    public static final int QUESTIONNAIRE_HAPPY = 0;
-    public static final int QUESTIONNAIRE_USUAL = 1;
-    public static final int QUESTIONNAIRE_UNHAPPY = 2;
+    public static final int QUESTIONNAIRE_HAPPY = 1;
+    public static final int QUESTIONNAIRE_USUAL = 2;
+    public static final int QUESTIONNAIRE_UNHAPPY = 3;
     //
     private Button rButtonHappy;
     private Button rButtonUsual;
@@ -33,15 +31,17 @@ public class FragmentQuestionnaire extends Fragment {
     private ContentValues rContentValues;
     //
     private int id;
+    Bundle bundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rDataBaseSeller = new DataBaseSeller(getActivity());
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
-        Bundle bundle = getArguments();
+        bundle = getArguments();
         id = bundle.getInt("ID");
-        Log.d(TAG, "onCreate: " + id);
+        bundle.clear();
+        Log.d(TAG, "onCreate FragmentQuestionnaire: " + id);
     }
 
     @Nullable
@@ -66,7 +66,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
+                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_HAPPY);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -84,7 +84,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time: " + timeText + "---" + " QUESTIONNAIRE: " + QUESTIONNAIRE_UNHAPPY);
+                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time: " + timeText + "---" + " QUESTIONNAIRE: " + QUESTIONNAIRE_USUAL);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -102,7 +102,7 @@ public class FragmentQuestionnaire extends Fragment {
                 rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
                 rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-                Log.d(TAG, "onClick: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
+                Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + QUESTIONNAIRE_UNHAPPY);
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
@@ -113,6 +113,8 @@ public class FragmentQuestionnaire extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: FragmentQuestionnaire");
+        bundle.clear();
         rSqLiteDatabase.close();
     }
 }

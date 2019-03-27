@@ -29,8 +29,15 @@ public class QuestionnaireActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+                if (fragment != null) {
+                    fragment = new FragmentAddNewPeople();
+                    fragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .commit();
+                }
             }
         });
 

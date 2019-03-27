@@ -9,7 +9,7 @@ import android.util.Log;
 public class DataBaseSeller extends SQLiteOpenHelper {
     public static final String TAG  = "DataBaseSeller";
 
-    public static final int VERSION = 9;
+    public static final int VERSION = 12;
     public static final String DATABASE_NAME = "seller1.db";
     /**
      *

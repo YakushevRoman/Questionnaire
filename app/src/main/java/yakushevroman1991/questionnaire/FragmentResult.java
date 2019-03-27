@@ -17,9 +17,10 @@ public class FragmentResult extends Fragment {
     private Button rButtonResult;
     private DataBaseSeller rDataBaseSeller;
     private SQLiteDatabase rSqLiteDatabase;
-    private String sql = "Select * From "
-            + DataBaseSellerChema.Seller_TABLE.NAME + " Inner Join " + DataBaseSellerChema.INFORMATION_TABLE.NAME
-            + " On " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID;
+    private int count_positive = 0;
+    private int count_usual = 0;
+    private int count_negative = 0;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,40 +36,48 @@ public class FragmentResult extends Fragment {
         rButtonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Cursor cursor = rSqLiteDatabase.query(DataBaseSellerChema.INFORMATION_TABLE.NAME, null,null,null,null,null,DataBaseSellerChema.INFORMATION_TABLE.Columns.ID);
-                if (cursor.moveToFirst()){
-                    do {
-                        int id = cursor.getInt(cursor.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
-                        int q = cursor.getInt(cursor.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
-                        String time = cursor.getString(cursor.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
-                        Log.d(TAG, "onClick: id :" + id + " --- Q:" +  q  + " --- time: " + time);
-                    }while (cursor.moveToNext());
-                }*/
-                int count_positive = 0;
-                int count_usual = 0;
-                int count_negative = 0;
-                Cursor cursor1 = rSqLiteDatabase.rawQuery(sql,null);
-                if (cursor1.moveToFirst()){
-                    do {
-                        String name = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
-                        int id = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
-                        int q = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
-                        if (FragmentQuestionnaire.QUESTIONNAIRE_HAPPY == q){
-                            ++count_positive;
-                        }else if (FragmentQuestionnaire.QUESTIONNAIRE_USUAL == q){
-                            ++count_usual;
-                        }else if (FragmentQuestionnaire.QUESTIONNAIRE_UNHAPPY == q){
-                            ++count_negative;
-                        }
-
-                        String time = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
-                        Log.d(TAG, "onClick: " + name + " " + id + " " + q + " " + time);
-                    }while (cursor1.moveToNext());
-                }
-                Log.d(TAG, "onClick: \n count_positive" + count_positive + "\n" + "count_usual:" + count_usual + "\n" + "count_negative:" + count_negative );
-
+                getQuestionary("ron");
             }
         });
         return view;
+    }
+
+    public void getQuestionary (String name){
+        String sql =
+                "Select * From "
+                + DataBaseSellerChema.Seller_TABLE.NAME + " , " + DataBaseSellerChema.INFORMATION_TABLE.NAME
+                + " Where " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID
+                + " Order by " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE;;
+
+
+        Cursor cursor1 = rSqLiteDatabase.rawQuery(sql,null);
+        if (cursor1.moveToFirst()){
+            do {
+                String namePerson = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
+                int id = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
+                int questiommaire = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
+
+                if (FragmentQuestionnaire.QUESTIONNAIRE_HAPPY == questiommaire){
+                    ++count_positive;
+                }else if (FragmentQuestionnaire.QUESTIONNAIRE_USUAL == questiommaire){
+                    ++count_usual;
+                }else if (FragmentQuestionnaire.QUESTIONNAIRE_UNHAPPY == questiommaire){
+                    ++count_negative;
+                }
+                String time = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
+                Log.d(TAG, "onClick: " + namePerson + " " + id + " " + questiommaire + " " + time);
+            }while (cursor1.moveToNext());
+        }
+
+        int rAllCount = count_positive + count_usual + count_negative;
+        double rProcentCountPositive = count_positive*100 / rAllCount;
+        double  rProcentCountUsual= count_usual*100 / rAllCount;
+        double rProcentCountNegative = count_negative*100 / rAllCount;
+        Log.d(TAG, "onClick: " + "\n count_positive:" + count_positive +"  " + "\n" + "count_usual:" + count_usual + "\n" + "count_negative:" + count_negative );
+        Log.d(TAG, "onClick: " + rProcentCountPositive + " " + rProcentCountUsual + " " + rProcentCountNegative);
+        count_positive = 0;
+        count_usual = 0;
+        count_negative = 0;
+
     }
 }
