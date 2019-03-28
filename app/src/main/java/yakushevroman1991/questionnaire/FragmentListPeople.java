@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,7 +42,7 @@ public class FragmentListPeople extends Fragment {
 
         rListPeople = new ArrayList<>();
 
-        rDataBaseSeller = new DataBaseSeller(getActivity());
+        /*rDataBaseSeller = new DataBaseSeller(getActivity());
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
         rContentValues = new ContentValues();
         rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
@@ -54,6 +55,48 @@ public class FragmentListPeople extends Fragment {
                 Log.d(TAG, "onCreate: ----- " + id + " ----" + name);
             }while (rCursor.moveToNext());
             Log.d(TAG, "onCreate: " + rListPeople.size());
+        }*/
+        new GetList().execute();
+    }
+
+    /*AsyncTask<[Input_Parameter Type], [Progress_Report Type], [Result Type]>
+    1 параметр - передаваемый тип в doInBackground
+    2 параметр - тип для процесса если нужно
+    3 параметр - Тип результата после выполнения doInBackground
+     */
+
+    private class GetList extends AsyncTask<Void, Void, List<ListPeople>>{
+        List <ListPeople> listPeoples;
+        @Override
+        protected void onPreExecute() {
+            listPeoples = new ArrayList<>();
+            rDataBaseSeller = new DataBaseSeller(getActivity());
+            rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
+            rContentValues = new ContentValues();
+            Log.d(TAG, "onPreExecute: ");
+        }
+
+        @Override
+        protected List<ListPeople> doInBackground(Void... voids) {
+            rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
+            if (rCursor.moveToFirst()){
+                do{
+                    int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.ID));
+                    String name = rCursor.getString(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
+                    ListPeople listPeople = new ListPeople(id,name);
+                    listPeoples.add(listPeople);
+                    Log.d(TAG, "doInBackground: ----- " + id + " ----" + name);
+                }while (rCursor.moveToNext());
+                Log.d(TAG, "doInBackground: " + listPeoples.size());
+            }
+            rListPeople = listPeoples;
+            return rListPeople;
+        }
+
+        @Override
+        protected void onPostExecute(List<ListPeople> listPeople){
+            rListPeople = listPeople;
+            Log.d(TAG, "onPostExecute: ");
         }
     }
 

@@ -1,7 +1,7 @@
 package yakushevroman1991.questionnaire;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,7 +36,7 @@ public class FragmentResult extends Fragment {
         rButtonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getQuestionary("ron");
+                new GetResultQuestionary().execute();
             }
         });
         return view;
@@ -45,9 +45,10 @@ public class FragmentResult extends Fragment {
     public void getQuestionary (String name){
         String sql =
                 "Select * From "
-                + DataBaseSellerChema.Seller_TABLE.NAME + " , " + DataBaseSellerChema.INFORMATION_TABLE.NAME
-                + " Where " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID
-                + " Order by " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE;;
+                        + DataBaseSellerChema.Seller_TABLE.NAME + " , " + DataBaseSellerChema.INFORMATION_TABLE.NAME
+                        + " Where " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID
+                        + " And " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE + " = '"+ name + "'"
+                        + " Order by " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE;;
 
 
         Cursor cursor1 = rSqLiteDatabase.rawQuery(sql,null);
@@ -79,5 +80,36 @@ public class FragmentResult extends Fragment {
         count_usual = 0;
         count_negative = 0;
 
+    }
+    /*AsyncTask<[Input_Parameter Type], [Progress_Report Type], [Result Type]>
+    1 параметр - передаваемый тип в doInBackground
+    2 параметр - тип для процесса если нужно
+    3 параметр - Тип результата после выполнения doInBackground
+     */
+    private class GetResultQuestionary extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Log.d(TAG, "onPreExecute: ");
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getQuestionary("papa");
+            Log.d(TAG, "doInBackground: ");
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d(TAG, "onPostExecute: ");
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }
