@@ -15,7 +15,7 @@ public class SellerWorkWithDataBase {
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
     }
     // добавление данных
-    private static ContentValues getContentValuesQuestionnaire(Questionnaire questionnaire){
+    public static ContentValues getContentValuesQuestionnaire(Questionnaire questionnaire){
         ContentValues values = new ContentValues();
         values.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID, questionnaire.getId());
         values.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, questionnaire.getQuestion());

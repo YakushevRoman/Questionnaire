@@ -5,6 +5,12 @@ public class Questionnaire {
     private String time;
     private int question;
 
+    public Questionnaire(int id, String time, int question) {
+        this.id = id;
+        this.time = time;
+        this.question = question;
+    }
+
     public int getId() {
         return id;
     }
