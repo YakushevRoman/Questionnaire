@@ -1,5 +1,4 @@
 package yakushevroman1991.questionnaire;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,16 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FragmentListPeople extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
-
     private List <ListPeople> rListPeople;
-
     private RecyclerView rRecyclerViewl;
 
     private DataBaseSeller rDataBaseSeller;
@@ -41,21 +37,6 @@ public class FragmentListPeople extends Fragment {
         super.onCreate(savedInstanceState);
 
         rListPeople = new ArrayList<>();
-
-        /*rDataBaseSeller = new DataBaseSeller(getActivity());
-        rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
-        rContentValues = new ContentValues();
-        rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
-        if (rCursor.moveToFirst()){
-            do{
-                int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.ID));
-                String name = rCursor.getString(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
-                ListPeople listPeople = new ListPeople(id,name);
-                rListPeople.add(listPeople);
-                Log.d(TAG, "onCreate: ----- " + id + " ----" + name);
-            }while (rCursor.moveToNext());
-            Log.d(TAG, "onCreate: " + rListPeople.size());
-        }*/
         new GetList().execute();
     }
 
@@ -168,7 +149,7 @@ public class FragmentListPeople extends Fragment {
             int IDsql = rListPeople.get(position).getId();
             Log.d(TAG, "onClick: position" + IDsql);
             FragmentManager  fragmentManager = getFragmentManager();
-            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+            Fragment fragment = Objects.requireNonNull(fragmentManager).findFragmentById(R.id.fragment_container);
             if (fragment != null){
                 fragment = new FragmentQuestionnaire();
                 rBundle.putInt("ID", IDsql);

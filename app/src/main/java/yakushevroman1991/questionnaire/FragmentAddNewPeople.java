@@ -14,20 +14,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Objects;
+
 public class FragmentAddNewPeople extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
 
-    private Button rButtonAddNewUser;
     private EditText rEditTextNewUser;
-    //
-    private DataBaseSeller rDataBaseSeller;
     private SQLiteDatabase rSqLiteDatabase;
     private ContentValues rContentValues;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rDataBaseSeller = new DataBaseSeller(getActivity());
+        //
+        DataBaseSeller rDataBaseSeller = new DataBaseSeller(getActivity());
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
         Log.d(TAG, "onCreate: ");
     }
@@ -38,7 +38,7 @@ public class FragmentAddNewPeople extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_new_people, container, false);
         Log.d(TAG, "onCreateView: ");
         rEditTextNewUser = view.findViewById(R.id.edit_text_add_new_people);
-        rButtonAddNewUser = view.findViewById(R.id.button_add_new_people);
+        Button rButtonAddNewUser = view.findViewById(R.id.button_add_new_people);
         rButtonAddNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,8 +47,8 @@ public class FragmentAddNewPeople extends Fragment {
                 rContentValues.put(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE, name);
                 rSqLiteDatabase.insert(DataBaseSellerChema.Seller_TABLE.NAME, null, rContentValues);
                 Log.d(TAG, "onClick: " + name);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);;
+                FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
+                Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
                 if (fragment != null){
                     fragment = new FragmentListPeople();
                     fragmentManager
