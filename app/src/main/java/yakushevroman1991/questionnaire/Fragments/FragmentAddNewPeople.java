@@ -1,4 +1,4 @@
-package yakushevroman1991.questionnaire;
+package yakushevroman1991.questionnaire.Fragments;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -13,8 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
 import java.util.Objects;
+
+
+import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
+import yakushevroman1991.questionnaire.DataBaseSellerChema;
+import yakushevroman1991.questionnaire.R;
 
 public class FragmentAddNewPeople extends Fragment {
     public static final String TAG = "QuestionnaireActivity";

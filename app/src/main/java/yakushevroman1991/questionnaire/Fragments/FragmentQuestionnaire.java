@@ -1,4 +1,4 @@
-package yakushevroman1991.questionnaire;
+package yakushevroman1991.questionnaire.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -18,6 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+
+import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
+import yakushevroman1991.questionnaire.DataBaseSellerChema;
+import yakushevroman1991.questionnaire.R;
 
 public class FragmentQuestionnaire extends Fragment {
     public static final String TAG = "QuestionnaireActivity";

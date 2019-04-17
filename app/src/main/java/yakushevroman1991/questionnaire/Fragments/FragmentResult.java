@@ -1,4 +1,4 @@
-package yakushevroman1991.questionnaire;
+package yakushevroman1991.questionnaire.Fragments;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
+
+import yakushevroman1991.questionnaire.DataBaseSellerChema;
+import yakushevroman1991.questionnaire.R;
 
 public class FragmentResult extends Fragment {
     public static final String TAG = "QuestionnaireActivity";

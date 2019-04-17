@@ -1,11 +1,14 @@
-package yakushevroman1991.questionnaire;
-
+package yakushevroman1991.questionnaire.DataBase;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import yakushevroman1991.questionnaire.DataBaseSellerChema;
 
+/**
+ *
+ */
 public class DataBaseSeller extends SQLiteOpenHelper {
     // Tag for log
     private static final String TAG = "QuestionnaireActivity";
@@ -20,7 +23,7 @@ public class DataBaseSeller extends SQLiteOpenHelper {
                     + DataBaseSellerChema.Seller_TABLE.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE + " TEXT"
                     + ");";
-    // this`s the string to create  TABLE_QUESTIONNAIRE
+    // this`s the string to create TABLE_QUESTIONNAIRE
     private static final String TABLE_QUESTIONNAIRE =
             "CREATE TABLE " + DataBaseSellerChema.INFORMATION_TABLE.NAME
                     + "("
@@ -28,7 +31,6 @@ public class DataBaseSeller extends SQLiteOpenHelper {
                     + DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE + " INTEGER,"
                     + DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME + " TEXT"
                     + ");";
-
     /**
      * these stings`re for delete tables
      */
@@ -36,7 +38,7 @@ public class DataBaseSeller extends SQLiteOpenHelper {
     private static final String sql_drop_questionnaire_table = "DROP TABLE IF EXISTS " + DataBaseSellerChema.INFORMATION_TABLE.NAME;
 
     // constructor for database
-     DataBaseSeller(Context context) {
+    public DataBaseSeller(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

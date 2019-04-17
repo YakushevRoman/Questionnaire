@@ -1,4 +1,4 @@
-package yakushevroman1991.questionnaire;
+package yakushevroman1991.questionnaire.PojoClass;
 
 public class ListPeople {
 

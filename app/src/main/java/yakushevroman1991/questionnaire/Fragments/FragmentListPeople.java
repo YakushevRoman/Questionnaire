@@ -1,4 +1,4 @@
-package yakushevroman1991.questionnaire;
+package yakushevroman1991.questionnaire.Fragments;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,6 +19,12 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
+
+import yakushevroman1991.questionnaire.DataBaseSellerChema;
+import yakushevroman1991.questionnaire.PojoClass.ListPeople;
+import yakushevroman1991.questionnaire.R;
 
 public class FragmentListPeople extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
