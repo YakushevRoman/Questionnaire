@@ -1,5 +1,4 @@
 package yakushevroman1991.questionnaire.Fragments;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,13 +20,10 @@ import java.util.Objects;
 
 import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
 import yakushevroman1991.questionnaire.DataBaseSellerChema;
+import yakushevroman1991.questionnaire.QuestioningConstants;
 import yakushevroman1991.questionnaire.R;
 
 public class FragmentQuestionnaire extends Fragment {
-    public static final String TAG = "QuestionnaireActivity";
-    public static final int QUESTIONNAIRE_HAPPY = 1;
-    public static final int QUESTIONNAIRE_USUAL = 2;
-    public static final int QUESTIONNAIRE_UNHAPPY = 3;
     private SQLiteDatabase rSqLiteDatabase;
     //
     private int id;
@@ -43,14 +39,13 @@ public class FragmentQuestionnaire extends Fragment {
         assert bundle != null;
         id = bundle.getInt("ID");
         bundle.clear();
-        Log.d(TAG, "onCreate FragmentQuestionnaire: " + id);
+        Log.d(QuestioningConstants.TAG, "onCreate FragmentQuestionnaire: " + id);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_questionnaire, container, false);
-
         //
         Button rButtonHappy = view.findViewById(R.id.happy_button);
         Button rButtonUsual = view.findViewById(R.id.usual_button);
@@ -59,7 +54,7 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddDataQuestionnaire().execute(QUESTIONNAIRE_HAPPY);
+                new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_HAPPY);
                 //addDataSqliteQuestionnaire(QUESTIONNAIRE_HAPPY);
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
@@ -68,7 +63,7 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonUsual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddDataQuestionnaire().execute(QUESTIONNAIRE_USUAL);
+                new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_USUAL);
                 //addDataSqliteQuestionnaire(QUESTIONNAIRE_USUAL);
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
@@ -77,7 +72,7 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonUnHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddDataQuestionnaire().execute(QUESTIONNAIRE_UNHAPPY);
+                new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_UNHAPPY);
                 //addDataSqliteQuestionnaire(QUESTIONNAIRE_UNHAPPY);
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
@@ -89,7 +84,7 @@ public class FragmentQuestionnaire extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: FragmentQuestionnaire");
+        Log.d(QuestioningConstants.TAG, "onDestroy: FragmentQuestionnaire");
         bundle.clear();
         rSqLiteDatabase.close();
     }
@@ -105,23 +100,23 @@ public class FragmentQuestionnaire extends Fragment {
         rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
         rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
 
-        Log.d(TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + question);
+        Log.d(QuestioningConstants.TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + question);
     }
-
+    // background task for add results of questioning.
     @SuppressLint("StaticFieldLeak")
     private class AddDataQuestionnaire extends AsyncTask<Integer, Void, Void>{
-
+        // main thread - before add results of questioning.
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
-
+        // background - add results of questioning
         @Override
         protected Void doInBackground(Integer... integers) {
             addDataSqliteQuestionnaire(integers[0]);
             return null;
         }
-
+        // main thread - after add results of questioning
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
