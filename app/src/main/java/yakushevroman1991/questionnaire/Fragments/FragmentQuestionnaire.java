@@ -17,27 +17,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-
 import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
 import yakushevroman1991.questionnaire.DataBaseSellerChema;
 import yakushevroman1991.questionnaire.QuestioningConstants;
 import yakushevroman1991.questionnaire.R;
 
 public class FragmentQuestionnaire extends Fragment {
+    // helper for my database
     private SQLiteDatabase rSqLiteDatabase;
-    //
+    // for get id user
     private int id;
-    Bundle bundle;
+    // get user`s id from bundle
+    private Bundle bundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //
+        // object my database
         DataBaseSeller rDataBaseSeller = new DataBaseSeller(getActivity());
+        // for to write infarmation about Questionnaire
         rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
+        // get bundle
         bundle = getArguments();
         assert bundle != null;
-        id = bundle.getInt("ID");
+        // id get from bundle
+        id = bundle.getInt(QuestioningConstants.ID);
         bundle.clear();
         Log.d(QuestioningConstants.TAG, "onCreate FragmentQuestionnaire: " + id);
     }
@@ -45,15 +49,17 @@ public class FragmentQuestionnaire extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // inflate from res a container for a fragment
         View view = inflater.inflate(R.layout.fragment_questionnaire, container, false);
-        //
+        // find buttons
         Button rButtonHappy = view.findViewById(R.id.happy_button);
         Button rButtonUsual = view.findViewById(R.id.usual_button);
         Button rButtonUnHappy = view.findViewById(R.id.unhappy_button);
-
+        // push buttons questionnaire
         rButtonHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // start  backgroung a task for to write the result
                 new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_HAPPY);
                 //addDataSqliteQuestionnaire(QUESTIONNAIRE_HAPPY);
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
@@ -63,8 +69,9 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonUsual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // start  backgroung a task for to write the result
                 new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_USUAL);
-                //addDataSqliteQuestionnaire(QUESTIONNAIRE_USUAL);
+                //get back in the fragment
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
         });
@@ -72,12 +79,12 @@ public class FragmentQuestionnaire extends Fragment {
         rButtonUnHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // start  backgroung a task for to write the result
                 new AddDataQuestionnaire().execute(QuestioningConstants.QUESTIONNAIRE_UNHAPPY);
-                //addDataSqliteQuestionnaire(QUESTIONNAIRE_UNHAPPY);
+                //get back in the fragment
                 Objects.requireNonNull(getActivity()).getSupportFragmentManager().popBackStack();
             }
         });
-
         return view;
     }
 
@@ -88,7 +95,7 @@ public class FragmentQuestionnaire extends Fragment {
         bundle.clear();
         rSqLiteDatabase.close();
     }
-
+    //
     private void addDataSqliteQuestionnaire(int question){
         Date currentDate = new Date();
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
@@ -99,7 +106,6 @@ public class FragmentQuestionnaire extends Fragment {
         rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE, question);
         rContentValues.put(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME,timeText);
         rSqLiteDatabase.insert(DataBaseSellerChema.INFORMATION_TABLE.NAME, null, rContentValues);
-
         Log.d(QuestioningConstants.TAG, "onClick FragmentQuestionnaire: " + id + "---" + "time" + timeText + " QUESTIONNAIRE " + question);
     }
     // background task for add results of questioning.

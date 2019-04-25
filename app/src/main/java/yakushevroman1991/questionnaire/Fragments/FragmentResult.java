@@ -17,7 +17,6 @@ import yakushevroman1991.questionnaire.QuestioningConstants;
 import yakushevroman1991.questionnaire.R;
 
 public class FragmentResult extends Fragment {
-
     private Button rButtonResult;
     // for database
     private DataBaseSeller rDataBaseSeller;

@@ -70,7 +70,10 @@ public class FragmentListPeople extends Fragment {
                 do{
                     int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.ID));
                     String name = rCursor.getString(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
-                    ListPeople listPeople = new ListPeople(id,name);
+                    // get list users
+                    ListPeople listPeople = new ListPeople();
+                    listPeople.setId(id);
+                    listPeople.setTitle(name);
                     listPeoples.add(listPeople);
                     Log.d(TAG, "doInBackground: ----- " + id + " ----" + name);
                 }while (rCursor.moveToNext());
