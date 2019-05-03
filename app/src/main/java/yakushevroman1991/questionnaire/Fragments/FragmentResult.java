@@ -1,4 +1,5 @@
 package yakushevroman1991.questionnaire.Fragments;
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -17,9 +18,6 @@ import yakushevroman1991.questionnaire.QuestioningConstants;
 import yakushevroman1991.questionnaire.R;
 
 public class FragmentResult extends Fragment {
-    private Button rButtonResult;
-    // for database
-    private DataBaseSeller rDataBaseSeller;
     private SQLiteDatabase rSqLiteDatabase;
     // for counting percentage
     private int count_positive = 0;
@@ -30,7 +28,8 @@ public class FragmentResult extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // create database
-        rDataBaseSeller = new DataBaseSeller(getActivity());
+        // for database
+        DataBaseSeller rDataBaseSeller = new DataBaseSeller(getActivity());
         // create object for to read information
         rSqLiteDatabase = rDataBaseSeller.getReadableDatabase();
     }
@@ -41,7 +40,7 @@ public class FragmentResult extends Fragment {
         // inflate from resurs a layout for the view
         View view = inflater.inflate(R.layout.fragment_results, container, false);
         // push prosessing the button
-        rButtonResult = view.findViewById(R.id.button_result_questionare);
+        Button rButtonResult = view.findViewById(R.id.button_result_questionare);
         rButtonResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,42 +58,38 @@ public class FragmentResult extends Fragment {
                         + DataBaseSellerChema.Seller_TABLE.NAME + " , " + DataBaseSellerChema.INFORMATION_TABLE.NAME
                         + " Where " + DataBaseSellerChema.Seller_TABLE.Columns.ID + " = " + DataBaseSellerChema.INFORMATION_TABLE.Columns.ID
                         + " And " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE + " = '"+ name + "'"
-                        + " Order by " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE;;
+                        + " Order by " + DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE;
 
         // create cursor for the data from the database
-        Cursor cursor1 = rSqLiteDatabase.rawQuery(sql,null);
-        if (cursor1.moveToFirst()){
+        @SuppressLint("Recycle")
+        Cursor cursorResultUsersSurvey = rSqLiteDatabase.rawQuery(sql,null);
+        if (cursorResultUsersSurvey.moveToFirst()){
             do {
                 // get name person
-                String namePerson = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
+                String namePerson = cursorResultUsersSurvey.getString(cursorResultUsersSurvey.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE));
                 // get id person
-                int id = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
+                int id = cursorResultUsersSurvey.getInt(cursorResultUsersSurvey.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.ID));
                 // get questioning
-                int questioning = cursor1.getInt(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
+                int questioning = cursorResultUsersSurvey.getInt(cursorResultUsersSurvey.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.QUESTIONNAIRE));
                 // count positive results of questioning
-                if (QuestioningConstants.QUESTIONNAIRE_HAPPY == questioning){
-                    ++count_positive;
-                }
+                if (QuestioningConstants.QUESTIONNAIRE_HAPPY == questioning) ++count_positive;
                 // count positive results of questioning
-                if (QuestioningConstants.QUESTIONNAIRE_USUAL  == questioning){
-                    ++count_usual;
-                }
+                if (QuestioningConstants.QUESTIONNAIRE_USUAL  == questioning) ++count_usual;
                 // count positive results of questioning
-                if (QuestioningConstants.QUESTIONNAIRE_UNHAPPY == questioning){
-                    ++count_negative;
-                }
-                String time = cursor1.getString(cursor1.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
+                if (QuestioningConstants.QUESTIONNAIRE_UNHAPPY == questioning) ++count_negative;
+                //
+                String time = cursorResultUsersSurvey.getString(cursorResultUsersSurvey.getColumnIndex(DataBaseSellerChema.INFORMATION_TABLE.Columns.TIME));
                 Log.d(QuestioningConstants.TAG, String.format("onClick: namePerson: %s , id: %s , questioning: %s, time: %s", namePerson, id, questioning, time));
-            }while (cursor1.moveToNext());
+            }while (cursorResultUsersSurvey.moveToNext());
         }
         // count all results of questioning
         int rAllCount = count_positive + count_usual + count_negative;
         // count procents positive
-        double rProcentCountPositive = count_positive*100 / rAllCount;
+        double rProcentCountPositive = (double) count_positive*100 / rAllCount;
         // count procents usual
-        double  rProcentCountUsual= count_usual*100 / rAllCount;
+        double  rProcentCountUsual= (double)count_usual*100 / rAllCount;
         // count procents negative
-        double rProcentCountNegative = count_negative*100 / rAllCount;
+        double rProcentCountNegative = (double)count_negative*100 / rAllCount;
         // enter log
         Log.d(QuestioningConstants.TAG, String.format("onClick: \n count positive: %s, count usual: %s, count negative: %s", count_positive, count_usual,count_negative ));
         Log.d(QuestioningConstants.TAG, String.format("onClick: \n Procent questioning : \n Positive: %s , Usual: %s, Negative: %s", rProcentCountPositive,rProcentCountUsual,rProcentCountNegative));
@@ -109,6 +104,7 @@ public class FragmentResult extends Fragment {
     2 параметр - тип для процесса если нужно
     3 параметр - Тип результата после выполнения doInBackground
      */
+    @SuppressLint("StaticFieldLeak")
     private class GetResultQuestionary extends AsyncTask<Void, Void, Void>{
         // start i
         @Override

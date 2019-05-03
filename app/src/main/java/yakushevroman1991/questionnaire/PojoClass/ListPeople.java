@@ -1,5 +1,4 @@
 package yakushevroman1991.questionnaire.PojoClass;
-
 public class ListPeople {
 
     private int id;

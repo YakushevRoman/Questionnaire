@@ -1,8 +1,6 @@
 package yakushevroman1991.questionnaire;
     /**
     * This`s database parameters for to create its tables
-    */
-    /**
     * first the table
     */
     public class DataBaseSellerChema {

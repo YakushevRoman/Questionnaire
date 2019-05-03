@@ -1,5 +1,6 @@
 package yakushevroman1991.questionnaire.Fragments;
-import android.content.ContentValues;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,9 +20,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
-
 import yakushevroman1991.questionnaire.DataBaseSellerChema;
 import yakushevroman1991.questionnaire.PojoClass.ListPeople;
 import yakushevroman1991.questionnaire.R;
@@ -29,13 +28,7 @@ import yakushevroman1991.questionnaire.R;
 public class FragmentListPeople extends Fragment {
     public static final String TAG = "QuestionnaireActivity";
     private List <ListPeople> rListPeople;
-    private RecyclerView rRecyclerViewl;
-
-    private DataBaseSeller rDataBaseSeller;
     private SQLiteDatabase rSqLiteDatabase;
-    private ContentValues rContentValues;
-    private Cursor rCursor;
-    //
     private Bundle rBundle;
 
     @Override
@@ -52,20 +45,21 @@ public class FragmentListPeople extends Fragment {
     3 параметр - Тип результата после выполнения doInBackground
      */
 
+    @SuppressLint("StaticFieldLeak")
     private class GetList extends AsyncTask<Void, Void, List<ListPeople>>{
         List <ListPeople> listPeoples;
         @Override
         protected void onPreExecute() {
             listPeoples = new ArrayList<>();
-            rDataBaseSeller = new DataBaseSeller(getActivity());
+            DataBaseSeller rDataBaseSeller = new DataBaseSeller(getActivity());
             rSqLiteDatabase = rDataBaseSeller.getWritableDatabase();
-            rContentValues = new ContentValues();
             Log.d(TAG, "onPreExecute: ");
         }
 
         @Override
         protected List<ListPeople> doInBackground(Void... voids) {
-            rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
+            @SuppressLint("Recycle")
+            Cursor rCursor = rSqLiteDatabase.query(DataBaseSellerChema.Seller_TABLE.NAME, null, null, null, null, null, null, null);
             if (rCursor.moveToFirst()){
                 do{
                     int id = rCursor.getInt(rCursor.getColumnIndex(DataBaseSellerChema.Seller_TABLE.Columns.ID));
@@ -101,7 +95,7 @@ public class FragmentListPeople extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_people, container, false);
-        rRecyclerViewl = view.findViewById(R.id.recycler_view_list_people);
+        RecyclerView rRecyclerViewl = view.findViewById(R.id.recycler_view_list_people);
         rRecyclerViewl.setLayoutManager(new LinearLayoutManager(getActivity()));
         rRecyclerViewl.setAdapter(new PeopleAdapter(rListPeople));
         return view;
@@ -110,7 +104,7 @@ public class FragmentListPeople extends Fragment {
     private class PeopleAdapter extends RecyclerView.Adapter<PeopleHolder>{
         List <ListPeople> rListPeople;
 
-        public PeopleAdapter(List<ListPeople> rListPeople) {
+        PeopleAdapter(List<ListPeople> rListPeople) {
             this.rListPeople = rListPeople;
         }
 
@@ -141,14 +135,14 @@ public class FragmentListPeople extends Fragment {
         private Button rButtonListItem;
         private Context context;
 
-        public PeopleHolder(Context context, View itemView) {
+        PeopleHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
             rButtonListItem = itemView.findViewById(R.id.button_people);
             itemView.setOnClickListener(this);
         }
 
-        public void settingsButton(ListPeople listPeople){
+        void settingsButton(ListPeople listPeople){
             rButtonListItem.setText(listPeople.getTitle());
         }
 

@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import java.util.Objects;
-
-
 import yakushevroman1991.questionnaire.DataBase.DataBaseSeller;
 import yakushevroman1991.questionnaire.DataBaseSellerChema;
 import yakushevroman1991.questionnaire.QuestioningConstants;
@@ -52,10 +50,14 @@ public class FragmentAddNewPeople extends Fragment {
         rButtonAddNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // reading new user name
                 String name = rEditTextNewUser.getText().toString();
+                //
                 rContentValues = new ContentValues();
                 rContentValues.put(DataBaseSellerChema.Seller_TABLE.Columns.NAME_PEOPLE, name);
+                //
                 rSqLiteDatabase.insert(DataBaseSellerChema.Seller_TABLE.NAME, null, rContentValues);
+                // I write in log new name
                 Log.d(QuestioningConstants.TAG, "onClick: " + name);
                 // work with fragment and go back in the parents fragment
                 FragmentManager fragmentManager = Objects.requireNonNull(getActivity()).getSupportFragmentManager();
