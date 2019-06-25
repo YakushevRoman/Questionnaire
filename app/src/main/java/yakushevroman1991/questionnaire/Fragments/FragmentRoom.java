@@ -37,11 +37,14 @@ public class FragmentRoom extends Fragment {
         DAO dao = appDataBase.getDAO();
 
         EntityTwo entityTwo = new EntityTwo();
-        entityTwo.namePeople = "Ivan1";
-        //dao.insertTwo(entityTwo);
+        entityTwo.namePeople = "Ivan4";
+        dao.insertTwo(entityTwo);
 
         List <EntityTwo> entityTwos = dao.getAllEntityTwo();
-        Log.d(QuestioningConstants.TAG, "onCreateView: " + entityTwos.size());
+        for (EntityTwo entityTwo1:entityTwos) {
+            Log.d(QuestioningConstants.TAG, "onCreateView: " + entityTwo1.namePeople + entityTwo1._id);
+        }
+
 
         return  view;
     }

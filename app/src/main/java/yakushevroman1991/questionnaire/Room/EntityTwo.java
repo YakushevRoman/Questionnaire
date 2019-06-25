@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class EntityTwo {
 
-    @PrimaryKey ()
+    @PrimaryKey (autoGenerate = true)
     public long _id;
 
     @ColumnInfo (name = "entityTwo_name_people")
