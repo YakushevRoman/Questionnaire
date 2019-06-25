@@ -16,6 +16,10 @@
             android:id="@+id/nav_result_people"
             android:icon="@drawable/ic_menu_manage"
             android:title="Получить данные по людям:" />
+        <item
+            android:id="@+id/nav_room_people"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Получить room:" />
     </group>
 
 

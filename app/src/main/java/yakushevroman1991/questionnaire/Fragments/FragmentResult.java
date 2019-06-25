@@ -85,11 +85,11 @@ public class FragmentResult extends Fragment {
         // count all results of questioning
         int rAllCount = count_positive + count_usual + count_negative;
         // count procents positive
-        double rProcentCountPositive = (double) count_positive*100 / rAllCount;
+        double rProcentCountPositive = Math.round((double) count_positive*100 / rAllCount);
         // count procents usual
-        double  rProcentCountUsual= (double)count_usual*100 / rAllCount;
+        double  rProcentCountUsual= Math.round((double)count_usual*100 / rAllCount);
         // count procents negative
-        double rProcentCountNegative = (double)count_negative*100 / rAllCount;
+        double rProcentCountNegative = Math.round((double)count_negative*100 / rAllCount);
         // enter log
         Log.d(QuestioningConstants.TAG, String.format("onClick: \n count positive: %s, count usual: %s, count negative: %s", count_positive, count_usual,count_negative ));
         Log.d(QuestioningConstants.TAG, String.format("onClick: \n Procent questioning : \n Positive: %s , Usual: %s, Negative: %s", rProcentCountPositive,rProcentCountUsual,rProcentCountNegative));
@@ -115,7 +115,7 @@ public class FragmentResult extends Fragment {
         // do a request with parametrs to seach
         @Override
         protected Void doInBackground(Void... voids) {
-            getQuestionary("roman");
+            getQuestionary("Roma");
             Log.d(QuestioningConstants.TAG, "doInBackground: ");
             return null;
         }

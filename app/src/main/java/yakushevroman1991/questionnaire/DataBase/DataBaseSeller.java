@@ -10,7 +10,7 @@ import yakushevroman1991.questionnaire.QuestioningConstants;
  */
 public class DataBaseSeller extends SQLiteOpenHelper {
     // version Db
-    private static final int VERSION = 12;
+    private static final int VERSION = 13;
     // database name
     private static final String DATABASE_NAME = "seller1.db";
     // the string for create  TABLE_PEOPLE

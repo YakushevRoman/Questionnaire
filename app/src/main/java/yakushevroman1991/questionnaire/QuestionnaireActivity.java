@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import yakushevroman1991.questionnaire.Fragments.FragmentAddNewPeople;
 import yakushevroman1991.questionnaire.Fragments.FragmentListPeople;
 import yakushevroman1991.questionnaire.Fragments.FragmentResult;
+import yakushevroman1991.questionnaire.Fragments.FragmentRoom;
 
 public class QuestionnaireActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -154,6 +155,25 @@ public class QuestionnaireActivity extends AppCompatActivity
                         .commit();
             } else {
                 fragment = new FragmentResult();
+                fragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            }
+        }
+        // for room
+        if (id == R.id.nav_room_people) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
+
+            if (fragment == null) {
+                fragment = new FragmentRoom();
+                fragmentManager
+                        .beginTransaction()
+                        .add(R.id.fragment_container, fragment)
+                        .commit();
+            } else {
+                fragment = new FragmentRoom();
                 fragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_container, fragment)
